@@ -2,6 +2,7 @@ module MccMnc
 
   # This data was grabed from https://www.mcc-mnc.com/
   def mcc_mnc_data
-    @mcc_mnc_data ||= CSV.table("lib/data/mcc_mnc.csv")
+    data_csv_path = File.join( File.dirname(__FILE__), './mcc_mnc.csv' )
+    @mcc_mnc_data ||= CSV.table(data_csv_path)
   end
 end
