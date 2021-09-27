@@ -27,6 +27,13 @@ class HomeNetworkIdentityTest < Minitest::Test
     assert_equal "Vodafone", home_network_identity.network
   end
 
+  def test_network
+    mcc = "268"
+    mnc = "1"
+    home_network_identity = HomeNetworkIdentity.new(mcc: mcc, mnc: mnc)
+    assert_equal "Vodafone", home_network_identity.network
+  end
+
   def test_mcc_not_found
     mcc = 268234
     home_network_identity = HomeNetworkIdentity.new(mcc: mcc)

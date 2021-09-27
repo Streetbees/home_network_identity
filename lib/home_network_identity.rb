@@ -5,7 +5,7 @@ class HomeNetworkIdentity
   include MccMnc
 
   def initialize(mcc:, mnc: nil)
-    @mcc, @mnc = mcc, mnc
+    @mcc, @mnc = mcc.to_i, mnc.to_i
   end
 
   def country
