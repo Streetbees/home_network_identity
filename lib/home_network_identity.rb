@@ -5,33 +5,36 @@ class HomeNetworkIdentity
   include MccMnc
 
   def initialize(mcc:, mnc: nil)
-    @mcc, @mnc = mcc.to_i, mnc.to_i
+    @mcc = mcc.to_s.rjust(3, "0")
+    @mnc = mnc.to_s.rjust(2, "0")
   end
 
   def country
-    find_per_column(:mcc)&.field(:country)
-  end
-
-  def country_phone_prefix
-    find_per_column(:mcc)&.field(:country_code)
+    easy_find("mcc")&.fetch("countryName", nil)
   end
 
   def iso_country_code
-    find_per_column(:mcc)&.field(:iso)
+    easy_find("mcc")&.fetch("countryCode", nil)
   end
 
-  def network
-    row = mcc_mnc_data.find do |row|
-      row.field(:mcc) == @mcc && row.field(:mnc) == @mnc
-    end
-    row&.field(:network)
+  def operator
+    raw_by_plmn.first&.fetch("operator", nil)
+  end
+
+  def raw_by_plmn
+    find_per_column("plmn", @mcc + @mnc)
   end
 
   private
 
-  def find_per_column(column)
-    mcc_mnc_data.find do |row|
-      row.field(column) == instance_variable_get("@#{column}")
+  def easy_find(column)
+    value = instance_variable_get("@#{column}")
+    find_per_column(column, value).first
+  end
+
+  def find_per_column(column, value)
+    mcc_mnc_data.select do |row|
+      row[column] == value
     end
   end
 end

@@ -7,7 +7,7 @@ Mobile Country Codes (MCC) are used in wireless telephone networks (GSM, CDMA, U
 ## About
 
 This gem returns the country basic info based on the Mobile Country Code (MCC).
-Also returns the Network name if you provide the Mobile Network Code (MNC).
+Also returns the Operator name if you provide the Mobile Network Code (MNC).
 
 ## Installation
 
@@ -28,12 +28,15 @@ require "home_network_identity"
 
 hni = HomeNetworkIdentity.new(mcc: 268)
 hni.country # => "Portugal"
-hni.country_phone_prefix # => 351
-hni.test_iso_country_code # => "pt"
+hni.iso_country_code # => "PT"
+hni.operator # => "Vodafone Portugal"
 
-# Get the network name
+To get an Array of hashes with raw data do:
+hni.raw_by_plmn
+
+# Get the operator name
 
 hni = HomeNetworkIdentity.new(mcc: 268, mnc: 1)
-hni.network # => "Vodafone"
+hni.operator # => "Vodafone Portugal"
 ```
 
