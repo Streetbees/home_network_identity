@@ -8,10 +8,16 @@ class HomeNetworkIdentityTest < Minitest::Test
     assert_equal "Algeria", home_network_identity.country
   end
 
-  def test_iso_country_code
+  def test_iso_country_code_GG
     plmn = 23403
     home_network_identity = HomeNetworkIdentity.new(plmn: plmn)
     assert_equal "GG", home_network_identity.iso_country_code
+  end
+
+  def test_iso_country_code_GB
+    plmn = 23401
+    home_network_identity = HomeNetworkIdentity.new(plmn: plmn)
+    assert_equal "GB", home_network_identity.iso_country_code
   end
 
   def test_operator
